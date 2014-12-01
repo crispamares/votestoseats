@@ -23,10 +23,9 @@ ActiveRecord::Schema.define(version: 20141129205302) do
 
   create_table "censuses", force: true do |t|
     t.integer "election_id"
-    t.integer "provice_id"
+    t.integer "province_id"
     t.integer "population"
     t.integer "number_of_tables"
-    t.integer "electoral_census"
     t.integer "electoral_census_without_cera"
     t.integer "electoral_census_cera"
     t.integer "electoral_census_total"
@@ -49,7 +48,7 @@ ActiveRecord::Schema.define(version: 20141129205302) do
 
   create_table "elections", force: true do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "chamber"
     t.datetime "election_day"
     t.integer  "country_id"
   end

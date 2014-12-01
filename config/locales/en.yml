@@ -21,3 +21,11 @@
 
 en:
   hello: "Hello world"
+
+
+activerecord:
+
+    models:
+      sheet:
+        one: Census
+        other: Censuses

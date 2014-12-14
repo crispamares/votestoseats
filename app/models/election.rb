@@ -3,7 +3,7 @@ class Election < ActiveRecord::Base
 	has_many :results, dependent: :destroy
 	has_many :censuses, dependent: :destroy
 
-	#Election.results_for(1977, "Almería")
+	#Election.results_for(1977, 4)
 	def self.results_for(year, province)
 		election = Election.where('extract(year  from election_day) = ?', year).first
 		province = Province.find(province)

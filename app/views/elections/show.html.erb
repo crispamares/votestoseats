@@ -1,1 +1,11 @@
 <h3>Elections <%= @year %> in <%= @province_name %></h3>
+
+<div class="table_of_results"></div>
+
+<%= javascript_include_tag "province/dhondt" %>
+
+<script>
+	//results.reset(<%#= @results_json %>, {parse: true});
+	var as = <%= @results_json.to_s.html_safe %> ;
+	console.log(as);
+</script>

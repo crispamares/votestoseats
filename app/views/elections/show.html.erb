@@ -1,11 +1,111 @@
 <h3>Elections <%= @year %> in <%= @province_name %></h3>
 
-<div class="table_of_results"></div>
+<div class="table_of_results">
+	<table>
+		<tr>
+			<th>Party</th>
+			<th>Votes</th>
+			<th>1st round</th>
+			<th>2nd round</th>
+			<th>3rd round</th>
+			<th>4th round</th>
+			<th>5th round</th>
+			<th>6th round</th>
+			<th>6th round</th>
+			<th>total seats</th>
+			<th>% seats</th>
+			<th>% votes</th>
+		</tr>
+		<tr>
+			<td>PARTIDO POPULAR (PP)</td>
+			<td>237785</td>
+			<td>237785</td>
+			<td>118892,5</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>4</td>
+			<td>57.14%</td>
+			<td>46.26%</td>
+		</tr>
+		<tr>
+			<td>PARTIDO SOCIALISTA OBRERO ESPAÑOL (PSOE)</td>
+			<td>185867</td>
+			<td>185867</td>
+			<td>92933,5</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>3</td>
+			<td>42.86%</td>
+			<td>36.16%</td>
+		</tr>
+		<tr>
+			<td>IZQUIERDA UNIDA-LOS VERDES: LA IZQUIERDA PLURAL (IU-LV)</td>
+			<td>40360</td>
+			<td>40360</td>
+			<td>20180</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0%</td>
+			<td>7.85%</td>
+		</tr>
 
+		<tr class="blank_row">
+			<td colspan="3"></td>
+		</tr>
+
+		<tr>
+			<td>blank votes</td>
+			<td>5294</td>
+			<td>3%</td>
+		</tr>
+		<tr>
+			<td>null votes</td>
+			<td>5252</td>
+			<td>2.8%</td>
+		</tr>
+		<tr>
+			<td><b>total votes</b></td>
+			<td>514034 (69,91%)</td>
+			<td>735201 (80%)</td>
+			<td>918072 (population)</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	var results_json = <%= @results_json.to_s.html_safe %>
+
+	var Census = Backbone.Model.extend();
+	var census = new Census({
+		"province_name": results_json.province_name,
+		"province_id": results_json.province_id,
+		"year": results_json.year,
+		"population": results_json.population,
+		"electoral_census": results_json.electoral_census,
+		"province_seats": results_json.province_seats,
+		"votes_blank": results_json.votes_blank,
+		"votes_null": results_json.votes_null,
+		"total_voters": results_json.total_voters,
+	});
+
+	console.log(census);
+</script>
+
+<%= stylesheet_link_tag 'province/dhondt' %>
 <%= javascript_include_tag "province/dhondt" %>
 
 <script>
-	//results.reset(<%#= @results_json %>, {parse: true});
-	var as = <%= @results_json.to_s.html_safe %> ;
-	console.log(as);
+	var results = new Results();
+	results.reset(results_json, {parse: true});
+	console.log(results);
 </script>

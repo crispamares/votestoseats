@@ -1,0 +1,22 @@
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 5px;
+}
+
+.blank_row{
+	height: 25px !important; /* Overwrite any previous rules */
+	background-color: #FFFFFF;
+
+}
+
+.blank_row td{
+	border-style: none;
+}
+
+div.table_of_results table{
+	/*width:100%;*/
+}

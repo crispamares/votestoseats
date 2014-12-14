@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added. province/dhondt.js
-Rails.application.config.assets.precompile += ['province/province.js', 'province/province.css']
+Rails.application.config.assets.precompile += ['province/province.js', 'province/province.css', 'templates/province/dhont_table.js']

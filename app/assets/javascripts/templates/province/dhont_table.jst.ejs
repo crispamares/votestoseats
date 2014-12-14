@@ -1,6 +1,5 @@
-<h3>Elections <%= @year %> in <%= @province_name %></h3>
+	<%  %>
 
-<div class="table_of_results">
 	<table>
 		<tr>
 			<th>Party</th>
@@ -80,33 +79,3 @@
 			<td>918072 (population)</td>
 		</tr>
 	</table>
-</div>
-
-<script>
-	var results_json = <%= @results_json.to_s.html_safe %>
-
-	var Census = Backbone.Model.extend();
-	var census = new Census({
-		"province_name": results_json.province_name,
-		"province_id": results_json.province_id,
-		"year": results_json.year,
-		"population": results_json.population,
-		"electoral_census": results_json.electoral_census,
-		"province_seats": results_json.province_seats,
-		"votes_blank": results_json.votes_blank,
-		"votes_null": results_json.votes_null,
-		"total_voters": results_json.total_voters,
-	});
-
-	console.log(census);
-</script>
-
-<%= stylesheet_link_tag 'province/province' %>
-<%= javascript_include_tag "templates/province/dhont_table" %>
-<%= javascript_include_tag "province/province" %>
-
-<script>
-	var results = new Results();
-	results.reset(results_json, {parse: true});
-	console.log(results);
-</script>

@@ -14,11 +14,10 @@
  *= require_self
  */
 
-
- h1, h3 {
+ body{
    font-family: "aktiv-grotesk-std",sans-serif;
  }
 
- h2 {
+ h2{
    font-family: "proxima-nova-soft";
  }

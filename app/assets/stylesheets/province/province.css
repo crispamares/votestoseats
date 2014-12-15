@@ -20,3 +20,8 @@ th, td {
 div.table_of_results table{
 	/*width:100%;*/
 }
+
+td.seat_win{
+	background-color: green;
+	color: white;
+}

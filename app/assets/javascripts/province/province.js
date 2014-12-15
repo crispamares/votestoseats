@@ -32,7 +32,7 @@ var TableOfResults = Backbone.View.extend({
 
 	render: function(data) {
 		this.el = this.template(data);
-		$('.table_of_results').append(this.el);
+		$('.table_of_results').prepend(this.el);
 		return this;
 	},
 

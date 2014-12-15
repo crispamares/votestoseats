@@ -30,13 +30,17 @@ var TableOfResults = Backbone.View.extend({
 
 	template: JST['templates/province/dhont_table'],
 
-	render: function() {
-		this.el = this.template();
+	render: function(data) {
+		this.el = this.template(data);
 		$('.table_of_results').append(this.el);
 		return this;
 	},
 
 });
 
-//table_of_results = new TableOfResults();
-//table_of_results.render();
+var results = new Results();
+results.reset(results_json, {parse: true});
+//console.log(results);
+
+table_of_results = new TableOfResults();
+table_of_results.render(results);

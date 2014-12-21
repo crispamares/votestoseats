@@ -1,5 +1,7 @@
 # Be sure to restart your server when you modify this file.
 
+Rails.application.config.serve_static_assets = true
+
 #Rails.application.config.assets.enabled = false
 #Rails.application.config.assets.initialize_on_precompile = false
 

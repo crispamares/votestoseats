@@ -1,4 +1,43 @@
 	<%
+
+		var compute_color_fairness_seats = function(seats, votes){
+
+			var style;
+			console.log("computing difference....");
+			difference = seats - votes;
+			console.log(difference);
+
+			switch (true) {
+				case (difference < 0 &&  difference > -3):
+					style = "Reds q0-3"
+					return style;
+					break;
+				case (difference < -3 &&  difference > -7):
+					style = "Reds q1-3"
+					return style;
+					break;
+				case (difference <= -7 &&  difference > -100):
+					style = "Reds q2-3"
+					return style;
+					break;
+				case (difference >=0 &&  difference < 10):
+					style = "Greens q0-3"
+					return style;
+					break;
+				case (difference >=10 &&  difference < 30):
+					style = "Greens q1-3"
+					return style;
+					break;
+				case (difference >=30 &&  difference < 100):
+					style = "Greens q2-3"
+					return style;
+					break;
+				default:
+				console.log("no range found " + difference);
+			}
+
+		}
+
 		console.log("rendering table");
 		console.log(models);
 
@@ -86,13 +125,17 @@
 				<td>% votes</td>
 				<% for(var i=0; i<models.length; i++){ %>
 					<td> <%= models[i].percent_votes %></td>
-				<% } %>
-			</tr>
+					<% } %>
+				</tr>
 			<tr>
 				<td>% seats</td>
-				<% for(var i=0; i<models.length; i++){ %>
-					<td> <%= models[i].percent_seats %></td>
-				<% } %>
+				<%
+					for(var i=0; i<models.length; i++){
+						var computed_style = compute_color_fairness_seats(models[i].percent_seats, models[i].percent_votes);
+						console.log(computed_style);
+				%>
+					<td class="<%= computed_style %>"> <%= models[i].percent_seats %></td>
+				<% }%>
 			</tr>
 
 		</table>

@@ -118,13 +118,13 @@
 			<tr>
 				<td><b>Seats obtained</b></td>
 				<% console.log(votes_state.seats_obtained);  for(var i=0; i<votes_state.seats_obtained.length; i++){ %>
-					<td> <%= votes_state.seats_obtained[i] %></td>
+					<td> <%= votes_state.seats_obtained[i] %> </td>
 					<% } %>
 			</tr>
 			<tr>
 				<td>% votes</td>
 				<% for(var i=0; i<models.length; i++){ %>
-					<td> <%= models[i].percent_votes %></td>
+					<td> <%= models[i].percent_votes %> %</td>
 					<% } %>
 				</tr>
 			<tr>
@@ -134,7 +134,7 @@
 						var computed_style = compute_color_fairness_seats(models[i].percent_seats, models[i].percent_votes);
 						console.log(computed_style);
 				%>
-					<td class="<%= computed_style %>"> <%= models[i].percent_seats %></td>
+					<td class="<%= computed_style %>"> <%= models[i].percent_seats %> %</td>
 				<% }%>
 			</tr>
 

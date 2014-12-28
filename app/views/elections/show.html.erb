@@ -1,28 +1,6 @@
 <h3>Elections <%= @year %> in <%= @province_name %></h3>
 
-<div class="table_of_results">
-	<table>
-		<tr>
-			<td>blank votes</td>
-			<td>5294</td>
-			<td>3%</td>
-		</tr>
-		<tr>
-			<td>null votes</td>
-			<td>5252</td>
-			<td>2.8%</td>
-		</tr>
-		<tr>
-			<td><b>total votes</b></td>
-			<td>514034 (69,91%)</td>
-			<td>735201 (80%)</td>
-			<td>918072 (population)</td>
-		</tr>
-	</table>
-
-	</br>
-
-</div>
+<div class="table_of_results"></div>
 
 <script>
 	var results_json = <%= @results_json.to_s.html_safe %>

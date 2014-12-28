@@ -29,4 +29,9 @@ class Election < ActiveRecord::Base
 		}
 	end
 
+	def self.results_for_total(year)
+		election = Election.where('extract(year  from election_day) = ?', year).first
+
+	end
+
 end

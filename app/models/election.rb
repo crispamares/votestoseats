@@ -2,6 +2,59 @@ class Election < ActiveRecord::Base
 
 	has_many :censuses, dependent: :destroy
 
+	#Election.results_for(2011)
+	def self.results(year)
+		election = Election.where('extract(year  from election_day) = ?', year).first
+		table_of_results = []
+		total_seats = 350
+		population = 0
+		electoral_census_total = 0
+		total_voters = 0
+		votes_blank = 0
+		votes_null = 0
+
+		election.censuses.each do |census|
+			population += census[:population]
+			electoral_census_total += census[:electoral_census_total]
+			total_voters += census[:total_voters]
+			votes_blank += census[:votes_blank]
+			votes_null += census[:votes_null]
+
+			census.results.each do |result|
+				current_party_index = table_of_results.index{|party| party[:party_id] == result[:party_id] }
+				if current_party_index.nil?
+					table_of_results.push({party_id: result[:party_id], seats: result[:seats], votes: result[:votes]})
+				else
+					table_of_results[current_party_index][:seats] += result[:seats]
+					table_of_results[current_party_index][:votes] += result[:votes]
+				end
+			end
+		end
+
+		table_of_results = table_of_results.sort_by{ |r| r[:seats]}
+		table_of_results.reverse!
+
+		table_of_results.each do |party|
+			p = Party.find(party[:party_id])
+			party[:name] = p.name
+			party[:acronym] = p.acronym
+		end
+
+		results_json = {
+			election_type: "Congreso de los Diputados",
+			country: "Spain",
+			year: year,
+			total_seats: total_seats,
+			population: population,
+			electoral_census_total: electoral_census_total,
+			total_voters: total_voters,
+			votes_blank: votes_blank,
+			votes_null: votes_null,
+			general_results: table_of_results
+		}
+
+	end
+
 	#Election.results_for(1977, 4)
 	def self.results_for(year, province)
 		election = Election.where('extract(year  from election_day) = ?', year).first
@@ -29,9 +82,6 @@ class Election < ActiveRecord::Base
 		}
 	end
 
-	def self.results_for_total(year)
-		election = Election.where('extract(year  from election_day) = ?', year).first
 
-	end
 
 end

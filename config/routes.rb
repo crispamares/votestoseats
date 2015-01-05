@@ -6,8 +6,9 @@ Rails.application.routes.draw do
     root 'application#index'
 
   # Example of regular route:
-     get 'elections/:year/' => 'elections#show'
-     get 'elections/:year/:province' => 'elections#show_province'
+    get 'elecciones/:year/' => 'elections#show'
+    get 'elecciones/:year/provincia/:province' => 'elections#show_province'
+
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

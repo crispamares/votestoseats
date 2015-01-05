@@ -1,5 +1,6 @@
-<h3>Elecciones <%= @year %></h3>
+<h3>Elecciones <%= @year %> en <%= @province_name %></h3>
 
+<div class="table_of_results"></div>
 
 <script>
 	var results_json = <%= @results_json.to_s.html_safe %>

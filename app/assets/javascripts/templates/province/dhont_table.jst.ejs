@@ -31,13 +31,13 @@
 					return style;
 					break;
 				default:
-				console.log("no range found " + difference);
+				//console.log("no range found " + difference);
 			}
 
 		}
 
-		console.log("rendering table");
-		console.log(models);
+		//console.log("rendering table");
+		//console.log(models);
 
 		var votes_state = { partial_results: [], seats_obtained:[], last_winner: -1}
 
@@ -55,7 +55,7 @@
 			</tr>
 
 			<tr>
-				<td><b>Votes</b></td>
+				<td><b>Votos</b></td>
 				<% for(var i=0; i<votes_state.partial_results.length; i++){ %>
 				<td><%= votes_state.partial_results[i] %></td>
 				<% } %>
@@ -63,15 +63,15 @@
 
 			<% for(var i=0; i<census.attributes.province_seats; i++){ %>
 			<tr>
-				<td>Seat <%= i+1 %></td>
+				<td>Escaño <%= i+1 %></td>
 				<%
 					var winner = {value: -1, index: ""};
-					console.log("Computing for Seat " + (i+1) + " ----->");
+					//console.log("Computing for Seat " + (i+1) + " ----->");
 					for(var j=0; j<votes_state.partial_results.length; j++){
 
 						/* If this was the last winner, divide it by its coefficient */
 						if(votes_state.last_winner == j){
-							console.log("// calculating new value ---- ");
+							//console.log("// calculating new value ---- ");
 							votes_state.partial_results[j] =  models[j].votes/(votes_state.seats_obtained[j]+1);
 						}
 
@@ -100,19 +100,19 @@
 			<% } %>
 
 			<tr>
-				<td><b>Seats obtained</b></td>
+				<td><b>Escaños obtenidos</b></td>
 				<% for(var i=0; i<votes_state.seats_obtained.length; i++){ %>
 					<td> <%= votes_state.seats_obtained[i] %> </td>
 					<% } %>
 			</tr>
 			<tr>
-				<td>% votes</td>
+				<td>% votos</td>
 				<% for(var i=0; i<models.length; i++){ %>
 					<td> <%= models[i].percent_votes %> %</td>
 					<% } %>
 				</tr>
 			<tr>
-				<td>% seats</td>
+				<td>% escaños</td>
 				<%
 					for(var i=0; i<models.length; i++){
 						var computed_style = compute_color_fairness_seats(models[i].percent_seats, models[i].percent_votes);
@@ -127,19 +127,19 @@
 
 		<table>
 			<tr>
-				<td>blank votes</td>
+				<td>votos en blanco</td>
 				<td><%= census.attributes.votes_blank %></td>
 				<td><%= Math.round(census.attributes.votes_blank*100/census.attributes.total_voters * 100) / 100 %>%</td>
 			</tr>
 			<tr>
-				<td>null votes</td>
+				<td>votos nulos</td>
 				<td><%= census.attributes.votes_null %></td>
 				<td><%= Math.round(census.attributes.votes_null*100/census.attributes.total_voters * 100) / 100 %>%</td>
 			</tr>
 			<tr>
-				<td><b>total votes</b></td>
+				<td><b>votos totales</b></td>
 				<td><%= census.attributes.total_voters %> (<%= Math.round(census.attributes.total_voters*100/census.attributes.electoral_census * 100) / 100 %>%)</td>
 				<td><%= census.attributes.electoral_census %> (<%= Math.round(census.attributes.electoral_census*100/census.attributes.population * 100) / 100 %>%)</td>
-				<td><%= census.attributes.population %> (population)</td>
+				<td><%= census.attributes.population %> (habitantes)</td>
 			</tr>
 		</table>

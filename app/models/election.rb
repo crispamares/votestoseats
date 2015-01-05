@@ -13,6 +13,7 @@ class Election < ActiveRecord::Base
 		votes_blank = 0
 		votes_null = 0
 
+		#Aggregate results
 		election.censuses.each do |census|
 			population += census[:population]
 			electoral_census_total += census[:electoral_census_total]
@@ -31,13 +32,18 @@ class Election < ActiveRecord::Base
 			end
 		end
 
+		#Order by seats obtained
 		table_of_results = table_of_results.sort_by{ |r| r[:seats]}
 		table_of_results.reverse!
 
+		#Calculate percentages %votes %seats %cost of votes per seat and get names
 		table_of_results.each do |party|
 			p = Party.find(party[:party_id])
 			party[:name] = p.name
 			party[:acronym] = p.acronym
+			party[:percent_votes] = (party[:votes].to_f*100/(total_voters-votes_null) * 100/100).round(2)
+			party[:percent_seats] = (party[:seats].to_f*100/total_seats * 100/100).round(2)
+			party[:votes_per_seats] = (party[:votes]/party[:seats].to_f).round(2)
 		end
 
 		results_json = {

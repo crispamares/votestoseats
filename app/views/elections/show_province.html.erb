@@ -1,4 +1,7 @@
-<h3>Elecciones <%= @year %> en <%= @province_name %></h3>
+<h3>
+	Elecciones en <select id="province_selector"><%= options_from_collection_for_select(@provinces, 'id', 'name', @province_id) %></select>
+	en el año <select id="year_selector"><%= options_for_select(@years, @year) %></select>
+</h3>
 
 <div class="table_of_results"></div>
 
@@ -21,6 +24,6 @@
 	console.log(census);
 </script>
 
-<%= stylesheet_link_tag 'province/province' %>
+<%= stylesheet_link_tag 'province' %>
 <%= javascript_include_tag "templates/province/dhont_table" %>
 <%= javascript_include_tag "province/province" %>

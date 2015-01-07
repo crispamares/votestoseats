@@ -1,10 +1,4 @@
 
-$(document).on('change','#province_selector, #year_selector',function(){
-	var province_selected = $('#province_selector').find(":selected").attr("value");
-	var year_selected = $('#year_selector').find(":selected").attr("value");
-	window.location.href = '/elecciones/'+year_selected+'/provincia/'+province_selected;
-});
-
 var Result = Backbone.Model.extend({
 
 	initialize: function(attributes) {

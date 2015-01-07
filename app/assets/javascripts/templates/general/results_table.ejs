@@ -1,0 +1,145 @@
+	<%
+
+		var compute_color_fairness_seats = function(seats, votes){
+
+			var style;
+			difference = seats - votes;
+
+			switch (true) {
+				case (difference < 0 &&  difference > -2):
+					style = "Reds q0-3"
+					return style;
+					break;
+				case (difference < -2 &&  difference > -5):
+					style = "Reds q1-3"
+					return style;
+					break;
+				case (difference <= -5 &&  difference > -100):
+					style = "Reds q2-3"
+					return style;
+					break;
+				case (difference >=0 &&  difference < 10):
+					style = "Greens q0-3"
+					return style;
+					break;
+				case (difference >=10 &&  difference < 30):
+					style = "Greens q1-3"
+					return style;
+					break;
+				case (difference >=30 &&  difference < 100):
+					style = "Greens q2-3"
+					return style;
+					break;
+				default:
+				//console.log("no range found " + difference);
+			}
+
+		}
+
+		//console.log("rendering table");
+		//console.log(models);
+
+		var votes_state = { partial_results: [], seats_obtained:[], last_winner: -1}
+
+		for(var i=0; i<models.length; i++){
+				votes_state.partial_results.push(models[i].votes);
+				votes_state.seats_obtained.push(0);
+		}
+	%>
+		<table>
+			<tr>
+				<th> </th>
+				<% for(var i=0; i<models.length; i++){ %>
+					<th> <%= models[i].name %> (<%= models[i].acronym %>)</th>
+				<% } %>
+			</tr>
+
+			<tr>
+				<td><b>Votos</b></td>
+				<% for(var i=0; i<votes_state.partial_results.length; i++){ %>
+				<td><%= votes_state.partial_results[i] %></td>
+				<% } %>
+			</tr>
+
+			<% for(var i=0; i<census.attributes.province_seats; i++){ %>
+			<tr>
+				<td>Escaño <%= i+1 %></td>
+				<%
+					var winner = {value: -1, index: ""};
+					//console.log("Computing for Seat " + (i+1) + " ----->");
+					for(var j=0; j<votes_state.partial_results.length; j++){
+
+						/* If this was the last winner, divide it by its coefficient */
+						if(votes_state.last_winner == j){
+							//console.log("// calculating new value ---- ");
+							votes_state.partial_results[j] =  models[j].votes/(votes_state.seats_obtained[j]+1);
+						}
+
+						/* Compare */
+						if(winner.value < votes_state.partial_results[j] || winner.value == -1){
+							winner.value = votes_state.partial_results[j];
+							winner.index = j;
+						}
+					}
+
+					votes_state.last_winner = winner.index;
+					votes_state.seats_obtained[winner.index] += 1;
+
+					for(var j=0; j<votes_state.partial_results.length; j++){
+						if(winner.index == j){
+				%>
+					<td class="seat_win"><%= Math.round(votes_state.partial_results[j] * 100) / 100  %> *</td>
+
+				<% 		}else{ %>
+					<td><%= Math.round(votes_state.partial_results[j] * 100) / 100  %></td>
+				<%
+					}
+				}
+				%>
+			</tr>
+			<% } %>
+
+			<tr>
+				<td><b>Escaños obtenidos</b></td>
+				<% for(var i=0; i<votes_state.seats_obtained.length; i++){ %>
+					<td> <%= votes_state.seats_obtained[i] %> </td>
+					<% } %>
+			</tr>
+			<tr>
+				<td>% votos</td>
+				<% for(var i=0; i<models.length; i++){ %>
+					<td> <%= models[i].percent_votes %> %</td>
+					<% } %>
+				</tr>
+			<tr>
+				<td>% escaños</td>
+				<%
+					for(var i=0; i<models.length; i++){
+						var computed_style = compute_color_fairness_seats(models[i].percent_seats, models[i].percent_votes);
+				%>
+					<td class="<%= computed_style %>"> <%= models[i].percent_seats %> %</td>
+				<% }%>
+			</tr>
+
+		</table>
+
+		</br>
+
+		<table>
+			<tr>
+				<td>votos en blanco</td>
+				<td><%= census.attributes.votes_blank %></td>
+				<td><%= Math.round(census.attributes.votes_blank*100/census.attributes.total_voters * 100) / 100 %>%</td>
+			</tr>
+			<tr>
+				<td>votos nulos</td>
+				<td><%= census.attributes.votes_null %></td>
+				<td><%= Math.round(census.attributes.votes_null*100/census.attributes.total_voters * 100) / 100 %>%</td>
+			</tr>
+			<tr>
+				<td><b>votos totales</b></td>
+				<td><%= census.attributes.total_voters %> (<%= Math.round(census.attributes.total_voters*100/census.attributes.electoral_census * 100) / 100 %>%)</td>
+				<td><%= census.attributes.electoral_census %> (<%= Math.round(census.attributes.electoral_census*100/census.attributes.population * 100) / 100 %>%)</td>
+				<td><%= census.attributes.population %> (habitantes)</td>
+			</tr>
+		</table>

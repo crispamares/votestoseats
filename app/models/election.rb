@@ -33,7 +33,7 @@ class Election < ActiveRecord::Base
 		end
 
 		#Order by seats obtained
-		table_of_results = table_of_results.sort_by{ |r| r[:seats]}
+		table_of_results = table_of_results.sort_by{ |r| r[:votes]}
 		table_of_results.reverse!
 
 		#Calculate percentages %votes %seats %cost of votes per seat and get names
@@ -53,9 +53,13 @@ class Election < ActiveRecord::Base
 			total_seats: total_seats,
 			population: population,
 			electoral_census_total: electoral_census_total,
+			electoral_census_total_percent: (electoral_census_total.to_f*100/population * 100/100).round(2),
 			total_voters: total_voters,
+			total_voters_percent: (total_voters.to_f*100/electoral_census_total * 100/100).round(2),
 			votes_blank: votes_blank,
+			votes_blank_percent: (votes_blank.to_f*100/total_voters * 100/100).round(2),
 			votes_null: votes_null,
+			votes_null_percent: (votes_null.to_f*100/total_voters * 100/100).round(2),
 			general_results: table_of_results
 		}
 

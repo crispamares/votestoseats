@@ -1,25 +1,26 @@
-<h3>Elecciones <%= @year %></h3>
+<h3>Elecciones <select id="year_selector"><%= options_for_select(@years, @year) %></select></h3>
+
+<div id="participation_bar"><svg></svg></div>
+
+<div id="general_results"></div>
 
 
 <script>
+
 	var results_json = <%= @results_json.to_s.html_safe %>
 
-	var Census = Backbone.Model.extend();
-	var census = new Census({
-		"province_name": results_json.province_name,
-		"province_id": results_json.province_id,
-		"year": results_json.year,
-		"population": results_json.population,
-		"electoral_census": results_json.electoral_census,
-		"province_seats": results_json.province_seats,
-		"votes_blank": results_json.votes_blank,
-		"votes_null": results_json.votes_null,
-		"total_voters": results_json.total_voters,
-	});
+	var participation_numbers = [
+		{name: 'población', color: "rgb(215,228,216)", amount: results_json.population},
+		{name: 'censo', color: "rgb(186,214,198)", figure:results_json.electoral_census_total_percent, amount: results_json.electoral_census_total},
+		{name: 'votantes', color: "rgb(122,170,169)", figure:results_json.total_voters_percent, amount: results_json.total_voters},
+		{name: 'en blanco', color: "rgb(33,120,117)", amount: results_json.votes_blank},
+		{name: 'nulos', color: "rgb(56,92,119)", amount: results_json.votes_null},
+	];
 
-	console.log(census);
 </script>
 
 <%= stylesheet_link_tag 'general' %>
 <%= javascript_include_tag "templates/general/results_table" %>
+<%= javascript_include_tag "common/participation_bar" %>
+<%= javascript_include_tag "common/tabulate_json" %>
 <%= javascript_include_tag "general/general" %>

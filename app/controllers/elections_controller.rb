@@ -6,6 +6,7 @@ class ElectionsController < ActionController::Base
     results = Election.results(params[:year])
 
     @results_json = results.to_json
+    @year = results[:year]
     @years = Election.all.pluck(:election_day).sort_by{ |y| y}.reverse.map!{|y| y.strftime("%Y")}
 
     respond_to do |format|
@@ -17,10 +18,11 @@ class ElectionsController < ActionController::Base
 
   def show_province
     results = Election.results_for(params[:year], params[:province])
+
+    @results_json = results.to_json
     @year = results[:year]
     @province_name = results[:province_name]
     @province_id = params[:province]
-    @results_json = results.to_json
 
     #@provinces = Province.all.pluck(:id, :name)
     @provinces = Province.all
